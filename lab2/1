@@ -1,0 +1,5 @@
+#!/bin/bash
+n=$(ps U user | wc -l)
+let n=$n-1
+echo "There are $n processes:" > 1file
+ps U user o pid,command | tail -n "$n" | sed -r "s/\s+([0-9]+)\s(.+)/\1:\2/" >> 1file
