@@ -1,0 +1,2 @@
+#!/bin/bash
+man bash | grep -o -E "[[:alpha:]]{4,}" | sort | uniq -ic | sort -n -r | head -n3

@@ -1,0 +1,9 @@
+#!/bin/bash
+#count=0
+#for file in $(find /var/log -name '*.log') 
+#do
+#num="$(wc -l "$file" | awk '{print $1}')"
+#count=$(($count+$num))
+#done
+#echo "$count"
+cat /var/log/*.log | wc -l

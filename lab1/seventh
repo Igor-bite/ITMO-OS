@@ -1,0 +1,7 @@
+#!/bin/bash
+mail="[[:alnum:]]+[\.%_-]*@[[:alnum:]]+[_.]*\.[[:alpha:]]{2,6}"
+rm emails.lst
+grep -a -E -o -h -r "$mail" "/etc" >> emails.lst
+cat emails.lst | tr "\n" , > emails.lst
+cat emails.lst
+
