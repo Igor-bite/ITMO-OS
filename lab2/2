@@ -1,5 +1,6 @@
 #!/bin/bash
+rm files/2file
 for i in $(ls /proc/ | grep "[0-9]\+")
 do
-echo $i | readlink /proc/$i/exe | grep "^/sbin" >> 2file
+echo $i | readlink /proc/$i/exe | grep "^/sbin" >> files/2file
 done
