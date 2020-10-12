@@ -1,0 +1,17 @@
+#!/bin/bash
+grep -s "read_bytes" /proc/*/io | tr -d [[:alpha:]][[:punct:]] | awk '$2!=""' > log
+cat log
+sleep 5s
+
+rm log1
+while read line
+do
+PID=$(echo $line | awk '{print $1}')
+memoryAfter=$(grep -s "read_bytes" /proc/"$PID"/io | awk '{print $2}')
+commandLine=$(ps "$PID" | tail -n 1 | awk '{print $5}')
+memoryBefore=$(echo $line | awk '{print $2}')
+resultMemory=$(echo "$memoryAfter-$memoryBefore" | bc)
+echo "$PID:$commandLine:$resultMemory" >> log1
+done < log
+sort -t ":" -r -n -k 3 log1 | head -n 3
+rm log1
