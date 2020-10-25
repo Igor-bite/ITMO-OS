@@ -1,16 +1,20 @@
 #!/bin/bash
 grep -s "read_bytes" /proc/*/io | tr -d [[:alpha:]][[:punct:]] | awk '$2!=""' > log
-sleep 5s
+sleep 1m
 
 echo "" > log1
 while read line
 do
 PID=$(echo $line | awk '{print $1}')
+if [[ -d /proc/"$PID" ]]
+then
+#check if the process still exists
 memoryAfter=$(grep -s "read_bytes" /proc/"$PID"/io | awk '{print $2}')
 commandLine=$(ps "$PID" | tail -n 1 | awk '{print $5}')
 memoryBefore=$(echo $line | awk '{print $2}')
 resultMemory=$(echo "$memoryAfter-$memoryBefore" | bc)
 echo "$PID:$commandLine:$resultMemory" >> log1
+fi
 done < log
 sort -t ":" -r -n -k 3 log1 | head -n 3
 rm log

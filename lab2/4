@@ -10,7 +10,7 @@ then ppid=0
 fi
 if [[ -z $sum_exec_runtime || -z $nr_switches ]]
 then ART=0
-else ART=$( echo "scale=5; $sum_exec_runtime/$nr_switches" | bc) #| awk '{print "%f", $0}')
+else ART=$( echo "scale=5; $sum_exec_runtime/$nr_switches" | bc)
 fi
 result="$i $ppid $ART"
 echo "$result"

@@ -1,2 +1,2 @@
 #!/bin/bash
-ps -e -o pid,start_time | sort -k 2 | tail -n 2 | head -n 1 | awk '{print $1}'
+ps -e -o pid,start_time | sort -k 2 | tail -n 2 | head -n 1 | awk '{print "pid: "$1"; time: "$2}' #time

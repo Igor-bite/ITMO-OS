@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fromProc=$(grep "VmRSS" /proc/*/status) | tr -d [[:alpha:]][[:punct:]] | sort -n -k 2 | tail -n 1 | awk '{print "PID: "$1" VmRSS: "$2""}')
+fromProc=$(grep "VmRSS" /proc/*/status | tr -d [[:alpha:]][[:punct:]] | sort -n -k 2 | tail -n 1 | awk '{print "PID: "$1" VmRSS: "$2""}')
 echo "/proc: $fromProc"
 fromTop=$(top -b -o RES | head -n 8 | tail -n 1 | awk '{print "PID: "$1" VmRSS: "$6""}')
 echo "top:   $fromTop"

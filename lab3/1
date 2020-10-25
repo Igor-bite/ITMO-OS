@@ -1,0 +1,5 @@
+#!/bin/bash
+curDate=$(date +%d.%m.%y\_%H:%M:%S)
+mkdir $HOME/test && echo "catalog test was created successfully" > ~/report && touch $HOME/test/$curdate
+site="www.netnikogo.ru"
+ping -c 1 $site || echo "$curDate ERROR : Site $site is not available" >> ~/report
