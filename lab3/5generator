@@ -1,0 +1,18 @@
+#!/bin/bash
+echo $$ > .pid
+finish()
+{
+	echo "exiting"
+	exit
+}
+trap 'finish' USR1
+while true; do
+	read LINE
+	#if [[ "$LINE" == "QUIT" ]]
+	#then
+	#	killall 5processer
+	#	echo "exiting"
+	#	exit
+	#fi
+	echo $LINE > pipe
+done

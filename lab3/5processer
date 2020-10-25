@@ -1,0 +1,37 @@
+#!/bin/bash
+previousNum=1
+mode="ADD"
+(tail -f pipe) |
+while true; do
+	read LINE;
+	if [[ $LINE =~ [0-9]+ ]]
+	then
+		case $mode in
+			"ADD")
+				previousNum=$((previousNum+LINE))
+				echo $previousNum
+				;;
+			"MULTIPLY")
+				previousNum=$((previousNum*LINE))
+				echo $previousNum
+				;;
+		esac
+	elif [[ $LINE == "QUIT" ]]
+	then
+		echo "exiting"
+		kill -USR1 $(cat .pid)
+		killall tail
+		exit
+	elif [[ $LINE == "*" ]]
+	then
+		mode="MULTIPLY"
+	elif [[ $LINE == "+" ]]
+	then
+		mode="ADD"
+	else
+		echo "error - invalid arguments"
+		kill -USR $(cat .pid)
+		killall tail
+		exit
+	fi
+done

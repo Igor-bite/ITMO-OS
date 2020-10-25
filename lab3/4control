@@ -1,0 +1,14 @@
+#!/bin/bash
+limit=10
+while true; do
+pid=$(top -b -n 1 | grep -s "for4" | sort -n | head -n 1 | awk '{print $1}')
+cpu=$(top -b -n 1 | grep -s "for4" | sort -n | head -n 1 | awk '{print $9}')
+res=$(echo "$cpu > $limit" | bc -l)
+if [[ $res -eq 1 ]]
+then
+niceness=$(top -b -n 1 | grep -s "for4" | sort -n | head -n 1 | awk '{print $4}')
+niceness=$((niceness+1))
+renice -n "$niceness" -p "$pid"
+sleep 1
+fi
+done
