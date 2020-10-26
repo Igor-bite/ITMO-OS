@@ -1,25 +1,36 @@
-
 #!/bin/bash
 echo $$ > .pid2
 previousNum=1
+mode="ADD"
 multiply()
 {
-	previousNum=$((previousNum*2))
-	echo $previousNum
+	mode="MULTIPLY"
 }
 add()
 {
-	previousNum=$((previousNum+2))
-	echo $previousNum
+	mode="ADD"
 }
 end()
 {
-	echo "exiting - signal from another process"
-	exit
+	mode="END"
 }
 trap 'add' USR1
 trap 'multiply' USR2
 trap 'end' SIGTERM
 while true; do
-sleep 1
+	case $mode in
+		"ADD")
+			previousNum=$((previousNum+2))
+			echo $previousNum
+			;;
+		"MULTIPLY")
+			previousNum=$((previousNum*2))
+			echo $previousNum
+			;;
+		"END")
+			echo "exiting - signal from another process"
+			exit
+			;;
+	esac
+	sleep 1
 done

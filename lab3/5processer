@@ -30,7 +30,7 @@ while true; do
 		mode="ADD"
 	else
 		echo "error - invalid arguments"
-		kill -USR $(cat .pid)
+		kill -USR1 $(cat .pid)
 		killall tail
 		exit
 	fi
