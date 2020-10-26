@@ -1,0 +1,25 @@
+
+#!/bin/bash
+echo $$ > .pid2
+previousNum=1
+multiply()
+{
+	previousNum=$((previousNum*2))
+	echo $previousNum
+}
+add()
+{
+	previousNum=$((previousNum+2))
+	echo $previousNum
+}
+end()
+{
+	echo "exiting - signal from another process"
+	exit
+}
+trap 'add' USR1
+trap 'multiply' USR2
+trap 'end' SIGTERM
+while true; do
+sleep 1
+done

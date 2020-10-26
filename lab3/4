@@ -1,4 +1,4 @@
 #!/bin/bash
-nice -n 6 ./for4 &
-nice -n 0 ./for4 &
+nice -n 1 ./for4 &
+nice -n 2 ./for4 &
 nice -n 3 ./for4 &

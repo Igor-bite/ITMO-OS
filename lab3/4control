@@ -8,7 +8,8 @@ if [[ $res -eq 1 ]]
 then
 niceness=$(top -b -n 1 | grep -s "for4" | sort -n | head -n 1 | awk '{print $4}')
 niceness=$((niceness+1))
+#echo "cpu is $cpu"
 renice -n "$niceness" -p "$pid"
-sleep 1
+sleep 2
 fi
 done

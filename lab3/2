@@ -1,4 +1,4 @@
 #!/bin/bash
-at now +2 minutes -f ./1
+at now +1 minutes -f ./1
 tail -n 0 -f ~/report
 
