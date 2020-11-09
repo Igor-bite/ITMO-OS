@@ -21,7 +21,7 @@ then
 	mkdir $curBackup
 	cp -r $backupPath/source/* $curBackup
 	filesList=$(ls $curBackup)
-	echo -e "new backup directory was made: Backup-$Date \n files : $fileList" >> $backupPath/backup-report
+	echo -e "new backup directory was made: Backup-$Date \nfiles : \n$filesList" >> $backupPath/backup-report
 else
 	for file in $(ls $backupPath/source)
 	do

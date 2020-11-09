@@ -34,7 +34,9 @@ echo "file .trash.log is empty"
 exit 6
 }
 
+{
 grep -E "*$1" "$trshLog" > tmp
+} || echo "There is no file named $1 in trash"
 
 IFS=$'\n'
 
@@ -59,10 +61,12 @@ while true; do
 			;;
 	esac
 done
-if [[ $answer ]]
+if [[ $answer == 1 ]]
 then
 cat $trshLog | grep -v "${path} $linkname" > $trshLog
-{ln "$trsh$linkname" $path && echo "Successfully"} || {
+{
+ln "$trsh$linkname" $path && echo "Successfully"
+} || {
 ln "$trsh$linkname" "/home/$fileName" && echo "file was made in home directory"
 } || {
 while true; do
