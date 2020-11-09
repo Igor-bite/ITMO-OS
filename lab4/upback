@@ -1,0 +1,16 @@
+#!/bin/bash
+path="/home/user"
+freshBackup=$(ls $path | grep -E "Backup-[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}" | sort -n -r | head -n 1)
+
+[ -z $freshBackup ] && {
+echo "There is no backups"
+exit 1
+}
+{
+[ -d "$path/restore" ] && rm $path/restore/*
+} || mkdir $path/restore
+
+for file in $(ls $path/$freshBackup | grep -E -v "\.[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}$")
+do
+	cp $path/$freshBackup/$file $path/restore/
+done

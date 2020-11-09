@@ -1,0 +1,78 @@
+#!/bin/bash
+if [[ $# -ne 1 ]]
+then
+echo "Wrong number of arguments"
+exit 1
+fi
+
+if [[ $1 == *"/"* ]]
+then
+echo "Filename shouldn't contain path"
+exit 2
+fi
+
+trsh="/home/.trash/"
+trshLog="/home/.trash.log"
+
+[ -d $trsh ] || {
+echo "directory .trash does not exist"
+exit 3
+}
+
+[ "$(ls -A $trsh)" ] || {
+echo ".trash is empty"
+exit 4
+}
+
+[ -f $trshLog ] || {
+echo "file .trash.log does not exist"
+exit 5
+}
+
+[ -s $trshLog ] || {
+echo "file .trash.log is empty"
+exit 6
+}
+
+grep -E "*$1" "$trshLog" > tmp
+
+IFS=$'\n'
+
+for line in $(cat tmp)
+do
+linkname=$(echo $line | awk '{print $2}')
+path=$(echo $line | awk '{print $1}')
+fileName=$(echo $path | awk -F "/" '{print $NF}')
+while true; do
+	read -p "Are you sure you want to reestablish file $path?" yn
+	case $yn in
+		[Yy]* )
+			answer=1
+			break
+			;;
+		[Nn]* )
+			answer=0
+			break
+			;;
+		* )
+			echo "Please enter smth"
+			;;
+	esac
+done
+if [[ $answer ]]
+then
+cat $trshLog | grep -v "${path} $linkname" > $trshLog
+{ln "$trsh$linkname" $path && echo "Successfully"} || {
+ln "$trsh$linkname" "/home/$fileName" && echo "file was made in home directory"
+} || {
+while true; do
+echo "please rename the file, enter new name"
+read newName
+ln "$trsh$linkname" "/home/$newName" && echo "file with name $newName was made in home directory" && break
+done
+}
+rm "$trsh$linkname"
+fi
+done
+rm tmp
+

@@ -1,0 +1,57 @@
+#!/bin/bash
+backupPath="/home/user"
+Date=$(date +'%F')
+DateSeconds=$(date -d "$Date" +'%s')
+
+lastBackup=$(ls $backupPath | grep -E "Backup-[[:digit:]]{4}-[[:digit:]]{2}-[[:digit:]]{2}" | sort -n -r | head -n 1)
+lastDate=$(echo $lastBackup | sed "s/Backup-//")
+lastDateSeconds=$(date -d "$lastDate" +'%s')
+
+difference=$((DateSeconds - lastDateSeconds))
+difference=$((difference/60/60/24))
+
+[ -d "$backupPath/source" ] || {
+echo "Directory $backupPath/source does not exist"
+exit 1
+}
+
+if [[ "$difference" -gt 7 || ! $lastBackup ]]
+then
+	curBackup="$backupPath/Backup-$Date"
+	mkdir $curBackup
+	cp -r $backupPath/source/* $curBackup
+	filesList=$(ls $curBackup)
+	echo -e "new backup directory was made: Backup-$Date \n files : $fileList" >> $backupPath/backup-report
+else
+	for file in $(ls $backupPath/source)
+	do
+	if [[ -f $backupPath/$lastBackup/$file ]]
+	then
+		prevSize=$(wc -c $backupPath/$lastBackup/$file | awk '{print $1}')
+		newSize=$(wc -c $backupPath/source/$file | awk '{print $1}')
+
+		if [[ $prevSize != $newSize ]]
+		then
+			newName="${file}.$Date"
+			mv $backupPath/$lastBackup/$file $backupPath/$lastBackup/$newName
+			cp $backupPath/source/$file $backupPath/$lastBackup
+			echo "$newName $file" >> $backupPath/changedFiles
+		fi
+
+	else
+		cp $backupPath/source/$file $backupPath/$lastBackup
+		echo $file >> $backupPath/newFiles
+	fi
+done
+
+echo "directory was updated: $lastBackup date: $Date" >> $backupPath/backup-report
+[ -s newFiles ] && {
+echo -e "new files: \n$(cat newFiles)" >> $backupPath/backup-report
+rm $backupPath/newFiles
+}
+
+[ -s changedFiles ] && {
+echo -e "changed files: \n$(cat changedFiles)" >> $backupPath/backup-report
+rm $backupPath/changedFiles
+}
+fi
