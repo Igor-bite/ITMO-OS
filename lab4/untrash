@@ -63,7 +63,8 @@ while true; do
 done
 if [[ $answer == 1 ]]
 then
-cat $trshLog | grep -v "${path} $linkname" > $trshLog
+data=$(cat $trshLog) 
+echo "$data" | grep -E -v "^$path $linkname$" > $trshLog
 {
 ln "$trsh$linkname" $path && echo "Successfully"
 } || {
