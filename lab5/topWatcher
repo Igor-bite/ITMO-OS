@@ -1,0 +1,3 @@
+#!/bin/bash
+seconds=0.5
+watch -n "$seconds" -td /home/user/lab5/getDataFromTop 

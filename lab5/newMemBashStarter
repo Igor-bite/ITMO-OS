@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "" > exitLog
+rm -f exitLog
+touch exitLog
+k=30
+n="$(cat report.log | tail -n 1)"
+n=$((n/10))
+# n=700210 # max with k=30
+for ((i=0; i < k; i++))
+do
+./newmem.bash $n &
+sleep 1
+done

@@ -1,0 +1,3 @@
+#!/bin/bash
+rm -f /home/user/lab5/top.log || touch top.log
+top -b | head -n 13 #>> top.log
