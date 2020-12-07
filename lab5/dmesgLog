@@ -1,0 +1,7 @@
+[ 2742.068923] [ 1519]     0  1519   193727    43404  1187840    94754             0 mem.bash
+[ 2742.069156] [ 1520]     0  1520   196202    45304  1200128    95337             0 mem2.bash
+[ 2742.069659] Out of memory: Killed process 1520 (mem2.bash) total-vm:784808kB, anon-rss:181216kB, file-rss:0kB, shmem-rss:0kB, UID:0
+[ 2742.100445] oom_reaper: reaped process 1520 (mem2.bash), now anon-rss:0kB, file-rss:0kB, shmem-rss:0kB
+[ 2804.808992] [ 1519]     0  1519   335165    89483  2322432   190116             0 mem.bash
+[ 2804.809297] Out of memory: Killed process 1519 (mem.bash) total-vm:1340660kB, anon-rss:357928kB, file-rss:4kB, shmem-rss:0kB, UID:0
+[ 2804.889676] oom_reaper: reaped process 1519 (mem.bash), now anon-rss:0kB, file-rss:0kB, shmem-rss:0kB
