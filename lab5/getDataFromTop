@@ -1,3 +1,6 @@
 #!/bin/bash
-rm -f /home/user/lab5/top.log || touch top.log
-top -b | head -n 13 #>> top.log
+#rm -f /home/user/lab5/top.log || touch /home/user/lab5/top.log
+#top -b | head -n 13
+#echo "" > /home/user/lab5/top.log
+top -b | head -n 13 >> /home/user/lab5/top.log
+echo "------------------------------------------------------------------------------" >> /home/user/lab5/top.log
